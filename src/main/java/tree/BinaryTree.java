@@ -94,4 +94,38 @@ protected TreeNode<E> root;
     public TreeNode getRoot(){
         return root;
     }
+    //删除一个元素,如果删除成功,则返回true,如果待删除的元素不存在,则返回false.
+    public boolean delete(E e){
+        TreeNode<E> parent=null;
+        TreeNode<E> current=root;
+        while (current!=null){
+            if (e.compareTo(current.element)<0){parent=current;current=current.left;}
+            else if (e.compareTo(current.element)>0){parent=current;current=current.right;}
+            else break;
+        }
+        if (current==null){return false;}
+        if (current.left==null){
+            if (parent==null){root=current.right;
+        }
+            else{
+                if (e.compareTo(parent.element)<0)parent.left=current.right;
+                else current=current.left;}
+            }
+        else {
+            TreeNode<E> parentOfRightMost=current;
+            TreeNode<E> rightMost=current.left;
+            while (rightMost.right!=null){
+                parentOfRightMost=rightMost;
+                rightMost=rightMost.right;
+            }
+            current.element=rightMost.element;
+            if (parentOfRightMost.right==rightMost)
+                parentOfRightMost.right=rightMost.left;
+            else
+                parentOfRightMost.left=rightMost.left;
+        }
+        size--;
+        return true;
+    }
+
 }
